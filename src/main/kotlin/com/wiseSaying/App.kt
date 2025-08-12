@@ -1,7 +1,6 @@
 package com.wiseSaying
 
 import com.wiseSaying.domain.wiseSaying.controller.WiseSayingController
-import com.wiseSaying.domain.wiseSaying.entity.WiseSaying
 
 class App {
     fun run() {
@@ -29,6 +28,7 @@ class App {
                         }
                     }
                 }
+                "빌드" -> wiseSayingController.build()
             }
         }
     }

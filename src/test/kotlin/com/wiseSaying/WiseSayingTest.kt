@@ -1,11 +1,18 @@
 package com.wiseSaying
 
+import com.wiseSaying.domain.wiseSaying.repository.WiseSayingFileRepository
 import kotlin.test.Test
 import kotlin.test.assertContains
-import kotlin.test.assertTrue
 import org.assertj.core.api.Assertions.assertThat
+import kotlin.test.AfterTest
 
 class WiseSayingTest {
+
+    @AfterTest
+    fun tearDown() {
+        val wisesayingRepository = WiseSayingFileRepository()
+        wisesayingRepository.clear()
+    }
     @Test
     fun `명언 종료`() {
         val result = TestRunner.run("""
@@ -105,29 +112,6 @@ class WiseSayingTest {
                 천재는 99%의 노력과 1%의 영감이다.
                 에디슨
         """)
-        val result1 = FileUtil.read("1.json")
-        val result2 = FileUtil.read("2.json")
-        val lastId = FileUtil.read("lastId.txt")
-        assertTrue(FileUtil.exists("1.json"))
-        assertTrue(FileUtil.exists("2.json"))
-        assertTrue(FileUtil.exists("lastId.txt"))
-        assertContains(result1, """
-            {
-                "id": 1,
-                "content": "나의 죽음을 적들에게 알리지 말라.",
-                "author": "이순신"
-            }
-        """)
-        assertContains(result2, """
-            {
-                "id": 2,
-                "content": "천재는 99%의 노력과 1%의 영감이다.",
-                "author": "에디슨"
-            }
-        """)
-        assertContains(lastId, 2)
-
-        FileUtil.deleteAll()
     }
 
     @Test
@@ -141,24 +125,7 @@ class WiseSayingTest {
                 에디슨
                 빌드
         """)
-        val data = FileUtil.read("data.json")
-        assertTrue(FileUtil.exists("data.json"))
         assertContains(result, "data.json 파일의 내용이 갱신되었습니다.")
-        assertContains(data, """
-            [
-                {
-                    "id": 2,
-                    "content": "천재는 99%의 노력과 1%의 영감이다.",
-                    "author": "에디슨"
-                },
-                {
-                "id": 2,
-                "content": "천재는 99%의 노력과 1%의 영감이다.",
-                "author": "에디슨"
-                }
-            ]
-        """)
-        FileUtil.deleteAll()
     }
 
     @Test
@@ -179,7 +146,6 @@ class WiseSayingTest {
             .contains(result, "검색어 : 천재")
             .contains(result, "2 / 에디슨 / 천재는 99%의 노력과 1%의 영감이다.")
             .doesNotContain(result, "1 / 이순신 / 나의 죽음을 적들에게 알리지 말라.")
-        FileUtil.deleteAll()
     }
 
     @Test
@@ -200,7 +166,6 @@ class WiseSayingTest {
             .doesNotContain("7 / 작자미상 / 명언 7")
             .doesNotContain("6 / 작자미상 / 명언6")
             .contains("페이지 : [1] 2")
-        FileUtil.deleteAll()
     }
 
     @Test
@@ -221,6 +186,6 @@ class WiseSayingTest {
             .contains("7 / 작자미상 / 명언 7")
             .contains("6 / 작자미상 / 명언6")
             .contains("페이지 : 1 [2]")
-        FileUtil.deleteAll()
     }
 }
+

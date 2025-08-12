@@ -1,5 +1,7 @@
 package com.wiseSaying.domain.wiseSaying.entity
 
+import com.wiseSaying.standard.util.JsonUtil.jsonStrToMap
+
 data class WiseSaying(
     var id: Int = 0,
     var content: String,

@@ -48,4 +48,8 @@ class WiseSayingController {
             wiseSayingService.modifyWiseSaying(wiseSaying, content, author)
         }
     }
+
+    fun build() {
+        wiseSayingService.build()
+    }
 }
