@@ -2,7 +2,7 @@ package com.wiseSaying.domain.wiseSaying.service
 
 import com.wiseSaying.domain.wiseSaying.entity.WiseSaying
 import com.wiseSaying.domain.wiseSaying.repository.WiseSayingFileRepository
-import com.wiseSaying.standard.util.dto.PageResponse
+import com.wiseSaying.standard.dto.PageResponse
 
 class WiseSayingService {
     private val wiseSayingRepository = WiseSayingFileRepository()

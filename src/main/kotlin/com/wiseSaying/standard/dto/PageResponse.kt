@@ -1,4 +1,4 @@
-package com.wiseSaying.standard.util.dto
+package com.wiseSaying.standard.dto
 
 class PageResponse<T>(
     val totalElements: Long,

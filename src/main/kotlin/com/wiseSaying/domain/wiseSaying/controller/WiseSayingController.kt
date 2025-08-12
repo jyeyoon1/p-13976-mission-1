@@ -76,10 +76,10 @@ class WiseSayingController {
             println("----------------------")
             println("번호 / 작가 / 명언")
             println("----------------------")
-            wiseSayings.content?.forEach {
-                println("${it.id} / ${it.author} / ${it.content}")
-            }
             if(wiseSayings.totalElements > 0) {
+                wiseSayings.content?.forEach {
+                    println("${it.id} / ${it.author} / ${it.content}")
+                }
                 print("페이지 : ")
                 for (i in 1..wiseSayings.totalPages) {
                     if (i == page) {

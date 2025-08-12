@@ -2,7 +2,7 @@ package com.wiseSaying.domain.wiseSaying.repository
 
 import com.wiseSaying.domain.wiseSaying.entity.WiseSaying
 import com.wiseSaying.standard.util.JsonUtil
-import com.wiseSaying.standard.util.dto.PageResponse
+import com.wiseSaying.standard.dto.PageResponse
 import java.nio.file.Path
 
 class WiseSayingFileRepository : WiseSayingRepository {

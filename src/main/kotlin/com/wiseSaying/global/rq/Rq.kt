@@ -1,4 +1,4 @@
-package com.wiseSaying
+package com.wiseSaying.global.rq
 
 class Rq(cmd: String) {
     val action: String
