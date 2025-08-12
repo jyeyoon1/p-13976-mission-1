@@ -14,7 +14,14 @@ class App {
             when (rq.action) {
                 "종료" -> break
                 "등록" -> wiseSayingController.addWiseSaying()
-                "목록" -> wiseSayingController.toList()
+                "목록" -> {
+                    if(rq.getKeywordAsString()==null && rq.getKeywordAsString()==null) {
+                        val page = rq.getParamValueAsInt("page", 1)
+                        wiseSayingController.toList(page, 5)
+                    }else{
+                        wiseSayingController.search(rq.getKeywordTypeAsString(), rq.getKeywordAsString())
+                    }
+                }
                 "삭제", "수정" -> {
                     val id = rq.getParamValueAsInt("id", -1)
                     if(id == -1) {

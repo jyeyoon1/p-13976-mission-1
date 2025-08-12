@@ -37,4 +37,12 @@ class Rq(cmd: String) {
             default
         }
     }
+
+    fun getKeywordTypeAsString(): String? {
+        return paramMap["keywordType"]
+    }
+
+    fun getKeywordAsString(): String? {
+        return paramMap["keyword"]
+    }
 }

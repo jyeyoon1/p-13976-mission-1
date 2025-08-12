@@ -2,6 +2,7 @@ package com.wiseSaying.domain.wiseSaying.repository
 
 import com.wiseSaying.domain.wiseSaying.entity.WiseSaying
 import com.wiseSaying.standard.util.JsonUtil
+import com.wiseSaying.standard.util.dto.PageResponse
 import java.nio.file.Path
 
 class WiseSayingFileRepository : WiseSayingRepository {
@@ -41,12 +42,63 @@ class WiseSayingFileRepository : WiseSayingRepository {
             .orEmpty()
     }
 
+    override fun findAll(page: Int, size: Int): PageResponse<WiseSaying> {
+        val wiseSayings = findAll()
+
+        val pagedContent = wiseSayings
+            .drop((page - 1) * size)
+            .take(size)
+
+        return PageResponse(
+            totalElements = wiseSayings.size.toLong(),
+            content = pagedContent,
+            page = page,
+            size = size
+        )
+    }
+
     override fun findById(id: Int): WiseSaying? {
         return dirPath.resolve("${id}.json")
             .toFile()
             .takeIf { it.exists() }
             ?.readText()
             ?.let(WiseSaying.Companion::fromJsonStr)
+    }
+
+    override fun findByAuthorLike(keyword: String): List<WiseSaying> {
+        return findAll().filter { it.author.contains(keyword) }
+    }
+
+    override fun findByAuthorLike(keyword: String, page: Int, size: Int): PageResponse<WiseSaying> {
+        val wiseSayings = findByAuthorLike(keyword)
+
+        val pageContent = wiseSayings
+            .drop((page - 1) * size)
+            .take(size)
+        return PageResponse(
+            totalElements = wiseSayings.size.toLong(),
+            content = pageContent,
+            page = page,
+            size = size
+        )
+    }
+
+    override fun findByContentLike(keyword: String): List<WiseSaying> {
+        return findAll().filter { it.content.contains(keyword) }
+    }
+
+    override fun findByContentLike(keyword: String, page: Int, size: Int): PageResponse<WiseSaying> {
+        val wiseSayings = findByContentLike(keyword)
+
+        val pageContent = wiseSayings
+            .drop((page - 1) * size)
+            .take(size)
+        return PageResponse(
+            totalElements = wiseSayings.size.toLong(),
+            content = pageContent,
+            page = page,
+            size = size
+        )
     }
 
     override fun clear() {
@@ -65,6 +117,7 @@ class WiseSayingFileRepository : WiseSayingRepository {
                     .writeText(it)
             }
     }
+
     internal fun saveLastId(lastId: Int) {
         mkdirIfNotExistPath()
         dirPath.resolve("lastId.txt")

@@ -2,6 +2,7 @@ package com.wiseSaying.domain.wiseSaying.service
 
 import com.wiseSaying.domain.wiseSaying.entity.WiseSaying
 import com.wiseSaying.domain.wiseSaying.repository.WiseSayingFileRepository
+import com.wiseSaying.standard.util.dto.PageResponse
 
 class WiseSayingService {
     private val wiseSayingRepository = WiseSayingFileRepository()
@@ -15,8 +16,8 @@ class WiseSayingService {
         return wiseSayingRepository.save(wiseSaying)
     }
 
-    fun toList(): List<WiseSaying>? {
-        return wiseSayingRepository.findAll()
+    fun toList(page: Int, size: Int): PageResponse<WiseSaying> {
+        return wiseSayingRepository.findAll(page, size)
     }
 
     fun deleteWiseSaying(wiseSaying: WiseSaying) {
@@ -34,5 +35,15 @@ class WiseSayingService {
 
     fun build() {
         wiseSayingRepository.build()
+    }
+
+    fun search(type: String, keyword: String, page: Int, size: Int): PageResponse<WiseSaying> {
+        return if(type.equals("content")) {
+            wiseSayingRepository.findByContentLike(keyword, page, size)
+        }else if(type.equals("author")){
+            wiseSayingRepository.findByAuthorLike(keyword, page, size)
+        }else{
+            PageResponse<WiseSaying>(0,0,0, listOf())
+        }
     }
 }

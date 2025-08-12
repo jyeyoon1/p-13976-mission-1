@@ -15,12 +15,24 @@ class WiseSayingController {
         println("${id}번 명언이 등록되었습니다.")
     }
 
-    fun toList(){
+    fun toList(page: Int, size: Int) {
         println("번호 / 작가 / 명언")
         println("----------------------")
-        val wiseSayings = wiseSayingService.toList()
-        wiseSayings?.forEach {
+        val wiseSayings = wiseSayingService.toList(page, size)
+        wiseSayings?.content?.forEach {
             println("${it.id} / ${it.author} / ${it.content}")
+        }
+        if(wiseSayings.totalElements > 0) {
+            print("페이지 : ")
+            for (i in 1..wiseSayings.totalPages) {
+                if (i == page) {
+                    print(" [${wiseSayings.page}]")
+                } else if (page > i) {
+                    print("${i} /")
+                } else {
+                    print(" / ${i}")
+                }
+            }
         }
     }
 
@@ -51,5 +63,34 @@ class WiseSayingController {
 
     fun build() {
         wiseSayingService.build()
+    }
+
+    fun search(type:String?, keyword: String?, page: Int, size: Int) {
+        println("----------------------")
+        if(type == null || keyword == null){
+            println("정확한 검색어를 입력해주세요.")
+        }else {
+            val wiseSayings = wiseSayingService.search(type, keyword, page, size)
+            println("검색타입 : $type")
+            println("검색어 : ${keyword}")
+            println("----------------------")
+            println("번호 / 작가 / 명언")
+            println("----------------------")
+            wiseSayings.content?.forEach {
+                println("${it.id} / ${it.author} / ${it.content}")
+            }
+            if(wiseSayings.totalElements > 0) {
+                print("페이지 : ")
+                for (i in 1..wiseSayings.totalPages) {
+                    if (i == page) {
+                        print(" [${wiseSayings.page}]")
+                    } else if (page > i) {
+                        print("${i} /")
+                    } else {
+                        print(" / ${i}")
+                    }
+                }
+            }
+        }
     }
 }

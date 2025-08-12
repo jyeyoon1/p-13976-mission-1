@@ -165,7 +165,7 @@ class WiseSayingTest {
             .doesNotContain("8 / 작자미상 / 명언 8")
             .doesNotContain("7 / 작자미상 / 명언 7")
             .doesNotContain("6 / 작자미상 / 명언6")
-            .contains("페이지 : [1] 2")
+            .contains("페이지 : [1] / 2")
     }
 
     @Test
@@ -185,7 +185,7 @@ class WiseSayingTest {
             .contains("8 / 작자미상 / 명언 8")
             .contains("7 / 작자미상 / 명언 7")
             .contains("6 / 작자미상 / 명언6")
-            .contains("페이지 : 1 [2]")
+            .contains("페이지 : 1 / [2]")
     }
 }
 
